@@ -8,10 +8,15 @@ Tier-1 = All three layers front-end,back-end & database on single same Azure vm
 
 Application Techs user:-
 1-Hosting Server=> Azure vm with public ip (No Load Balancer)
+
 2-VM OS=> Ubuntu 24.04 lts
+
 3-Front-end=> html, css, javascript(app.js)(front-end logic)==> Front-end will be served by nodejs public/index.html public/style.css public/app.js
+
 4-Back-end => node.js with express ===> server.js
+
 5-Database=> Mysql  
+
 6-nginx as reverse proxy only not front-end
  
 Application Flow=>
@@ -103,57 +108,9 @@ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
 Insert data:
 
-INSERT INTO providers
-(name, service_type, city, phone, rating)
-VALUES
+please refer file for inserting data---database_data
 
-('Rahul Plumbing Services',
- 'Plumber',
- 'Ghaziabad',
- '9876543210',
- 4.8),
 
-('Sharma Electric Works',
- 'Electrician',
- 'Ghaziabad',
- '9876543211',
- 4.7),
-
-('Modern Carpentry',
- 'Carpenter',
- 'Ghaziabad',
- '9876543212',
- 4.9),
-
-('Noida Home Repair',
- 'Plumber',
- 'Noida',
- '9876543213',
- 4.6),
-
-('Perfect Painters',
- 'Painter',
- 'Noida',
- '9876543214',
- 4.5),
-
-('Delhi Power Experts',
- 'Electrician',
- 'Delhi',
- '9876543215',
- 4.9),
-
-('Quick Cleaning Services',
- 'Cleaner',
- 'Delhi',
- '9876543216',
- 4.7),
-
-('Smart AC Repair',
- 'AC Technician',
- 'Noida',
- '9876543217',
- 4.8);
 
 Step 7: Environment File
 
@@ -170,125 +127,10 @@ PORT=3000
 
 8-Back-end server setup
 
+please refer file ---server.js
+
 nano server.js
-paste here
-
-const express = require("express");
-const mysql = require("mysql2");
-const cors = require("cors");
-require("dotenv").config();
-
-const app = express();
-
-app.use(cors());
-
-app.use(express.static("public"));
-
-const db = mysql.createConnection({
-
- host: process.env.DB_HOST,
- user: process.env.DB_USER,
- password: process.env.DB_PASSWORD,
- database: process.env.DB_NAME
-
-});
-
-db.connect((err)=>{
-
- if(err){
-
-   console.log(err);
-
- }else{
-
-   console.log("MySQL Connected");
-
- }
-
-});
-
-app.get("/providers",(req,res)=>{
-
- const city = req.query.city;
- const service = req.query.service;
-
- let sql =
- "SELECT * FROM providers WHERE 1=1";
-
- let params = [];
-
- if(city){
-
-   sql += " AND city = ?";
-   params.push(city);
-
- }
-
- if(service){
-
-   sql += " AND service_type = ?";
-   params.push(service);
-
- }
-
- db.query(sql,params,(err,result)=>{
-
-   if(err){
-
-     return res.status(500).json(err);
-
-   }
-
-   res.json(result);
-
- });
-
-});
-
-app.get("/cities",(req,res)=>{
-
- db.query(
-  "SELECT DISTINCT city FROM providers",
-  (err,result)=>{
-
-   if(err){
-
-    return res.status(500).json(err);
-
-   }
-
-   res.json(result);
-
- });
-
-});
-
-app.get("/services",(req,res)=>{
-
- db.query(
-  "SELECT DISTINCT service_type FROM providers",
-  (err,result)=>{
-
-   if(err){
-
-    return res.status(500).json(err);
-
-   }
-
-   res.json(result);
-
- });
-
-});
-
-app.listen(process.env.PORT,()=>{
-
- console.log(
-  `Server Running On Port ${process.env.PORT}`
- );
-
-});
-
+paste the content of server.js
 then save it
 
 
@@ -298,292 +140,34 @@ then save it
 cd public/
 
 then nano app.js
-paste this --
 
-async function loadDropdowns() {
+please refer app.js file
 
- const cityResponse = await fetch("/cities");
- const cities = await cityResponse.json();
+paste the content of app.js
 
- const citySelect =
- document.getElementById("city");
-
- cities.forEach(city => {
-
-  citySelect.innerHTML +=
-  `<option value="${city.city}">
-   ${city.city}
-  </option>`;
-
- });
-
- const serviceResponse =
- await fetch("/services");
-
- const services =
- await serviceResponse.json();
-
- const serviceSelect =
- document.getElementById("service");
-
- services.forEach(service => {
-
-  serviceSelect.innerHTML +=
-  `<option value="${service.service_type}">
-   ${service.service_type}
-  </option>`;
-
- });
-
-}
-
-async function loadProviders() {
-
- const city =
- document.getElementById("city").value;
-
- const service =
- document.getElementById("service").value;
-
- const response =
- await fetch(
-  `/providers?city=${city}&service=${service}`
- );
-
- const data =
- await response.json();
-
- let html = "";
-
- data.forEach(provider => {
-
-  html += `
-   <div class="card">
-
-    <div class="card-content">
-
-     <h3>${provider.name}</h3>
-
-     <p>⭐ ${provider.rating}</p>
-
-     <p>📍 ${provider.city}</p>
-
-     <p>🔧 ${provider.service_type}</p>
-
-     <p>📞 ${provider.phone}</p>
-
-    </div>
-
-   </div>
-  `;
-
- });
-
- document.getElementById("result")
- .innerHTML = html;
-
-}
-
-loadDropdowns();
 
 save it
 
-then style.css 
+then do for style.css 
+
+please refer the file style.css
+
 nano style.css
-paste this 
+paste the content of style.css
 
-.field{
-    display:flex;
-    flex-direction:column;
-    color:white;
-}
 
-.field label{
-    margin-bottom:8px;
-    font-weight:bold;
-}
 
-.card-content{
-    padding:20px;
-}
-
-.card-content p{
-    margin-top:10px;
-}
 save it 
 
 
-then index.html
+then do for index.html
+please refer the content of index.html file
+
 nano index.html
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Local Service Finder</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-</head>
-
-<body>
-
-    <!-- Hero Section -->
-
-    <section class="hero">
-
-        <div class="overlay">
-
-            <h1>
-                Find Trusted Local Services
-            </h1>
-
-            <p>
-                Search verified service providers in your city
-            </p>
-
-            <div class="search-box">
-
-                <div class="field">
-
-                    <label>
-                        <i class="fa-solid fa-location-dot"></i>
-                        City
-                    </label>
-
-                    <select id="city">
-
-                        <option value="">
-                            Select City
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div class="field">
-
-                    <label>
-                        <i class="fa-solid fa-screwdriver-wrench"></i>
-                        Service
-                    </label>
-
-                    <select id="service">
-
-                        <option value="">
-                            Select Service
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <button onclick="loadProviders()">
-
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    Search
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- Popular Services -->
-
-    <section>
-
-        <h2 class="section-title">
-
-            Popular Services
-
-        </h2>
-
-        <div class="service-icons">
-
-            <div>
-                🔧
-                <span>Plumber</span>
-            </div>
-
-            <div>
-                ⚡
-                <span>Electrician</span>
-            </div>
-
-            <div>
-                🪚
-                <span>Carpenter</span>
-            </div>
-
-            <div>
-                🎨
-                <span>Painter</span>
-            </div>
-
-            <div>
-                ❄️
-                <span>AC Technician</span>
-            </div>
-
-            <div>
-                🧹
-                <span>Cleaner</span>
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- Providers Section -->
-
-    <section>
-
-        <h2 class="section-title">
-
-            Service Providers
-
-        </h2>
-
-        <div id="result"
-             class="providers">
-
-        </div>
-
-    </section>
-
-    <!-- Footer -->
-
-    <footer>
-
-        <p>
-            © 2026 Local Service Finder |
-            Built with Node.js, Express, MySQL & Azure VM
-        </p>
-
-    </footer>
-
-    <script src="app.js"></script>
-
-</body>
-
-</html>
-
+please paste the content of index.html here 
 
 save it 
-
-
 
 10- PM2 (Optional but Recommended)
 
