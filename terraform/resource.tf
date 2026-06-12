@@ -178,7 +178,7 @@ connection {
   type        = "ssh"
   host        = azurerm_linux_virtual_machine.localservicefinderfrontendvm.public_ip_address
   user        = "nirmaladmin"
-  password    = "Nirmal@12345"
+  password    = "according to you"
 }
 
 
