@@ -37,9 +37,13 @@ Infracture Setup=>
 I used terraform codes to create whole infracture on Azure .... 
 
 2-Middle ware setup ==>
+
 -nginx for reverse proxy
+
 -nodejs & npm for back-end
+
 -mysql for database
+
 -front-end will be also handled by nodejs via providing public/index.html public/style.css  public/app.js
 
 I used provisioners block to setup for above required packages ..
@@ -57,7 +61,11 @@ then created 2 files == touch .env (for database connection details) && touch se
 4-Iniliazed node project inside localservicefinder directory=== npm init -y    (This will create package.json)
 
 5-Install required packages  npm install express mysql2 cors dotenv
-purpose of packages ==  express=> handle API   mysql2=> bridge between back-end and data base cors=> Bridge between Browser and Back-end node server   dotenv==> use for reading database form .env
+
+purpose of packages ==  express=> handle API   
+mysql2=> bridge between back-end and data base c
+ors=> Bridge between Browser and Back-end node server   
+dotenv==> use for reading database form .env
 
 6-Building 3rd layer-- datatbase 
 Login:
