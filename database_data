@@ -1,0 +1,51 @@
+INSERT INTO providers
+(name, service_type, city, phone, rating)
+VALUES
+
+('Rahul Plumbing Services',
+ 'Plumber',
+ 'Ghaziabad',
+ '9876543210',
+ 4.8),
+
+('Sharma Electric Works',
+ 'Electrician',
+ 'Ghaziabad',
+ '9876543211',
+ 4.7),
+
+('Modern Carpentry',
+ 'Carpenter',
+ 'Ghaziabad',
+ '9876543212',
+ 4.9),
+
+('Noida Home Repair',
+ 'Plumber',
+ 'Noida',
+ '9876543213',
+ 4.6),
+
+('Perfect Painters',
+ 'Painter',
+ 'Noida',
+ '9876543214',
+ 4.5),
+
+('Delhi Power Experts',
+ 'Electrician',
+ 'Delhi',
+ '9876543215',
+ 4.9),
+
+('Quick Cleaning Services',
+ 'Cleaner',
+ 'Delhi',
+ '9876543216',
+ 4.7),
+
+('Smart AC Repair',
+ 'AC Technician',
+ 'Noida',
+ '9876543217',
+ 4.8);
